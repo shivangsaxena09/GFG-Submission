@@ -1,63 +1,42 @@
 ## 01. C++ Solution || Easy Approach and Step by Step Explanation
 
-The problem can be found at the following link: [Question Link](https://www.geeksforgeeks.org/problems/new-registration-system--150419/1)
+The problem can be found at the following link: [Question Link](https://www.geeksforgeeks.org/problems/count-the-characters1821/1)
 
 ### Problem Description
 
-**Task:** Given an array of strings arr[]. The array represents first names of users, generate a unique username for each entry in the order it appears.Initially, consider all usernames present in the input array as reserved.If a username has not already been assigned to any previous user, keep it unchanged.Otherwise, append the smallest positive integer suffix that produces a username that has not been reserved or assigned to any previous user.Return the array of generated usernames.Examples:Input: arr[] = ["aba", "ab", "aba", "aba", "ab"]Output: ["aba", "ab", "aba1", "aba2", "ab1"]Explanation: The first occurrences of "aba" and "ab" are new, so they remain unchanged. The next "aba" is already used, so "aba1" is assigned. When "aba" appears again, "aba1" is already used, so "aba2" is assigned. Similarly, the second occurrence of "ab" becomes "ab1".Input: arr[] = ["a", "a", "a1", "a"]
-
-#### Examples
-
-##### Example 1
-
-- **Output:**
-```text
-["aba1", "aba", "aba2"]
-```
-- **Explanation:** Initially, "aba1" and "aba" are reserved. The first occurrence of each retains its original name. For the second occurrence of "aba", "aba1" is already reserved, so "aba2" is assigned.
+**Task:** Given a string s and an integer k, count the number of distinct characters that appear in exactly k groups in the string.A group is defined as one or more consecutive occurrences of the same character. For example, in the string "aaabbcca", the groups are "aaa", "bb", "cc" and "a".Examples:Input: s = "abc", k = 1Output: 3Explanation: The characters 'a', 'b' and 'c' each appear in exactly one group.Input: s = "geeksforgeeks", k = 2Output: 4Explanation: The characters 'g', 'e', 'k' and 's' each appear in exactly two groups.Input: s = "aaaaa", k = 2Output: 0Explanation: The character 'a' appears in only one group, so no character appears in exactly two groups.
 
 ### Time and Auxiliary Space Complexity
 
-- **Expected Time Complexity:** O(n * m)
-- **Expected Auxiliary Space Complexity:** O(n * m)
+- **Expected Time Complexity:** O(n)
+- **Expected Auxiliary Space Complexity:** O(1)
 
 ### Accepted Solutions (1)
 
 #### Solution 1 (Java)
 
-- **Submitted:** 2026-11-07 23:16:56
+- **Submitted:** 2026-11-09 20:29:03
 - **Status:** Correct
 - **Marks:** 2
 
 ```java
-import java.util.*;
-
 class Solution {
-    public ArrayList<String> generateUsernames(String[] arr) {
-        Set<String> reserved = new HashSet<>(Arrays.asList(arr));
-        Set<String> assigned = new HashSet<>();
-        Map<String, Integer> nextSuffix = new HashMap<>();
-        ArrayList<String> result = new ArrayList<>();
+    public int getCount(String s, int k) {
+        int[] groups = new int[26];
 
-        for (String name : arr) {
-            if (!assigned.contains(name)) {
-                assigned.add(name);
-                result.add(name);
-            } else {
-                int k = nextSuffix.getOrDefault(name, 1);
-                String candidate = name + k;
-                while (reserved.contains(candidate) || assigned.contains(candidate)) {
-                    k++;
-                    candidate = name + k;
-                }
-                nextSuffix.put(name, k + 1);
-                assigned.add(candidate);
-                result.add(candidate);
+        for (int i = 0; i < s.length(); i++) {
+            if (i == 0 || s.charAt(i) != s.charAt(i - 1)) {
+                groups[s.charAt(i) - 'a']++;
             }
         }
-        return result;
+
+        int ans = 0;
+        for (int g : groups) {
+            if (g == k) ans++;
+        }
+        return ans;
     }
 }
 ```
 
-*Generated on: 07/11/2026, 23:17:11*
+*Generated on: 09/11/2026, 20:29:18*
