@@ -1,42 +1,47 @@
 ## 01. C++ Solution || Easy Approach and Step by Step Explanation
 
-The problem can be found at the following link: [Question Link](https://www.geeksforgeeks.org/problems/count-the-characters1821/1)
+The problem can be found at the following link: [Question Link](https://www.geeksforgeeks.org/problems/first-element-to-occur-k-times5150/1)
 
 ### Problem Description
 
-**Task:** Given a string s and an integer k, count the number of distinct characters that appear in exactly k groups in the string.A group is defined as one or more consecutive occurrences of the same character. For example, in the string "aaabbcca", the groups are "aaa", "bb", "cc" and "a".Examples:Input: s = "abc", k = 1Output: 3Explanation: The characters 'a', 'b' and 'c' each appear in exactly one group.Input: s = "geeksforgeeks", k = 2Output: 4Explanation: The characters 'g', 'e', 'k' and 's' each appear in exactly two groups.Input: s = "aaaaa", k = 2Output: 0Explanation: The character 'a' appears in only one group, so no character appears in exactly two groups.
+**Task:** Given an array arr[] and an integer k, find the first element that occurs at least k times in the array.If multiple elements satisfy the condition, return the element whose k-th occurrence appears earliest in the array.If no element occurs at least k times, return -1.Examples:Input: arr[] = [1, 7, 4, 3, 4, 8, 7], k = 2
+
+#### Examples
+
+##### Example 1
+
+- **Output:**
+```text
+4
+```
+- **Explanation:** Both 7 and 4 occur twice. However, 4 reaches its second occurrence before 7, so the answer is 4.Input: arr[] = [3, 1, 3, 4, 5, 1, 3, 3, 5, 4], k = 3Output: 3Explanation: The element 3 is the only element that occurs at least 3 times in the array.Input: arr[] = [10, 8, 2], k = 10Output: -1Explanation: No element occurs at least 10 times in the array.
 
 ### Time and Auxiliary Space Complexity
 
 - **Expected Time Complexity:** O(n)
-- **Expected Auxiliary Space Complexity:** O(1)
+- **Expected Auxiliary Space Complexity:** O(n)
 
 ### Accepted Solutions (1)
 
 #### Solution 1 (Java)
 
-- **Submitted:** 2026-11-09 20:29:03
+- **Submitted:** 2026-11-10 15:32:03
 - **Status:** Correct
 - **Marks:** 2
 
 ```java
 class Solution {
-    public int getCount(String s, int k) {
-        int[] groups = new int[26];
-
-        for (int i = 0; i < s.length(); i++) {
-            if (i == 0 || s.charAt(i) != s.charAt(i - 1)) {
-                groups[s.charAt(i) - 'a']++;
+    public int firstElementKTime(int[] arr, int k) {
+        java.util.HashMap<Integer,Integer> frequencyMap = new java.util.HashMap<>();
+        for(int num : arr){
+            frequencyMap.put(num,frequencyMap.getOrDefault(num,0)+1);
+            if(frequencyMap.get(num)>=k){
+                return num;
             }
         }
-
-        int ans = 0;
-        for (int g : groups) {
-            if (g == k) ans++;
-        }
-        return ans;
+        return -1;
     }
 }
 ```
 
-*Generated on: 09/11/2026, 20:29:18*
+*Generated on: 10/11/2026, 15:32:19*
