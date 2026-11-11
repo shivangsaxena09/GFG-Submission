@@ -1,4 +1,4 @@
-## 01. Python Optimal Approach
+## 01. java Optimal Approach
 
 The problem can be found at the following link: [Question Link](https://www.geeksforgeeks.org/problems/kth-distance3757/1)
 
