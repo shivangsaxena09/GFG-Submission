@@ -1,10 +1,10 @@
 ## 01. C++ Solution || Easy Approach and Step by Step Explanation
 
-The problem can be found at the following link: [Question Link](https://www.geeksforgeeks.org/problems/first-element-to-occur-k-times5150/1)
+The problem can be found at the following link: [Question Link](https://www.geeksforgeeks.org/problems/find-the-closest-element-in-bst/1)
 
 ### Problem Description
 
-**Task:** Given an array arr[] and an integer k, find the first element that occurs at least k times in the array.If multiple elements satisfy the condition, return the element whose k-th occurrence appears earliest in the array.If no element occurs at least k times, return -1.Examples:Input: arr[] = [1, 7, 4, 3, 4, 8, 7], k = 2
+**Task:** Given root of a Binary Search Tree (BST) and an integer k, find the minimum absolute difference between k and the value of any node in the BST.Examples:Input: root = [10, 2, 11, 1, 5, N, N, N, N, 3, 6, N, 4], k = 13
 
 #### Examples
 
@@ -12,36 +12,66 @@ The problem can be found at the following link: [Question Link](https://www.geek
 
 - **Output:**
 ```text
-4
+2
 ```
-- **Explanation:** Both 7 and 4 occur twice. However, 4 reaches its second occurrence before 7, so the answer is 4.Input: arr[] = [3, 1, 3, 4, 5, 1, 3, 3, 5, 4], k = 3Output: 3Explanation: The element 3 is the only element that occurs at least 3 times in the array.Input: arr[] = [10, 8, 2], k = 10Output: -1Explanation: No element occurs at least 10 times in the array.
+- **Explanation:** The node with value 11 is closest to k = 13. So, the minimum absolute difference is |11 - 13| = 2.
+
+##### Example 2
+
+- **Input:**
+```text
+root = [8, 1, 9, N, 4, N, 10, 3], k = 9
+```
+- **Output:**
+```text
+0
+```
+- **Explanation:** The node with value 9 is closest to k = 9. So, the minimum absolute difference is |9 - 9| = 0.
 
 ### Time and Auxiliary Space Complexity
 
-- **Expected Time Complexity:** O(n)
-- **Expected Auxiliary Space Complexity:** O(n)
+- **Expected Time Complexity:** O(h)
+- **Expected Auxiliary Space Complexity:** O(h)
 
 ### Accepted Solutions (1)
 
 #### Solution 1 (Java)
 
-- **Submitted:** 2026-11-10 15:32:03
+- **Submitted:** 2026-11-12 14:10:38
 - **Status:** Correct
-- **Marks:** 2
+- **Marks:** 4
 
 ```java
+/* Structure of a Binary Search Tree node
+class Node {
+    int data;
+    Node left, right;
+
+    public Node(int val) {
+        data = val;
+        left = right = null;
+    }
+}
+*/
+
 class Solution {
-    public int firstElementKTime(int[] arr, int k) {
-        java.util.HashMap<Integer,Integer> frequencyMap = new java.util.HashMap<>();
-        for(int num : arr){
-            frequencyMap.put(num,frequencyMap.getOrDefault(num,0)+1);
-            if(frequencyMap.get(num)>=k){
-                return num;
+    public int minDiff(Node root, int k) {
+        int minDiff = Integer.MAX_VALUE;
+        
+        while (root != null){
+            minDiff = Math.min(minDiff,Math.abs(root.data - k));
+            
+            if(root.data == k){
+                return 0;
+            }else if(k<root.data){
+                root = root.left;
+            }else{
+                root = root.right;
             }
         }
-        return -1;
+        return minDiff;
     }
 }
 ```
 
-*Generated on: 10/11/2026, 15:32:19*
+*Generated on: 12/11/2026, 14:10:53*
