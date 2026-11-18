@@ -21,9 +21,37 @@ The problem can be found at the following link: [Question Link](https://www.geek
 - **Expected Time Complexity:** O(n^3)
 - **Expected Auxiliary Space Complexity:** O(n^2)
 
-### Accepted Solutions (1)
+### Accepted Solutions (2)
 
 #### Solution 1 (Java)
+
+- **Submitted:** 2026-11-18 17:18:15
+- **Status:** Correct
+- **Marks:** 0
+
+```java
+class Solution {
+    static int matrixMultiplication(int arr[]) {
+        int n = arr.length;
+        int[][] dp = new int[n][n];
+        for (int len = 2; len < n; len++) {
+            for (int i = 1; i + len - 1 < n; i++) {
+                int j = i + len - 1;
+                dp[i][j] = Integer.MAX_VALUE;
+                for (int k = i; k < j; k++) {
+                    int cost = dp[i][k] + dp[k + 1][j] + arr[i - 1] * arr[k] * arr[j];
+                    if (cost < dp[i][j]) {
+                        dp[i][j] = cost;
+                    }
+                }
+            }
+        }
+        return dp[1][n - 1];
+    }
+}
+```
+
+#### Solution 2 (Java)
 
 - **Submitted:** 2026-11-18 17:15:55
 - **Status:** Correct
@@ -55,4 +83,4 @@ class Solution {
 }
 ```
 
-*Generated on: 18/11/2026, 17:16:11*
+*Generated on: 18/11/2026, 17:18:34*
