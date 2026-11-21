@@ -1,46 +1,55 @@
 ## 01. C++ Solution || Easy Approach and Step by Step Explanation
 
-The problem can be found at the following link: [Question Link](https://www.geeksforgeeks.org/problems/k-th-missing-element-in-natural-numbers/1)
+The problem can be found at the following link: [Question Link](https://www.geeksforgeeks.org/problems/smallest-subarray-with-sum-greater-than-x5651/1)
 
 ### Problem Description
 
-**Task:** Given an array arr[] of distinct positive integers and a positive integer k. Consider an infinite sequence of natural numbers starting from 1. The task is to remove all elements present in arr[] from this sequence.Find the k-th smallest number in the remaining sequence.Note: Your solution must run in O(1) auxiliary space.Examples:Input: arr[] = [1, 9, 5, 2], k = 6Output: 10Explanation: After removing [1, 2, 5, 9] from the natural numbers, the remaining sequence is: 3, 4, 6, 7, 8, 10, 11, .... and so on. The 6th number in this sequence is 10, so the answer is 10.Input: arr[] = [1, 2, 3, 4], k = 1Output: 5Explanation: After removing [1, 2, 3, 4] from the natural numbers, the remaining sequence is: 5, 6, 7, .... and so on. The 1st number in the sequence is 5, so the answer is 5.
+**Task:** Given an integer x and an array of integers, arr[]. Find the length of the smallest subarray whose sum is strictly greater than x. If no such subarray exists, return 0.Examples:Input: x = 51, arr[] = [1, 4, 45, 6, 0, 19]
+
+#### Examples
+
+##### Example 1
+
+- **Output:**
+```text
+0
+```
+- **Explanation:** No subarray has a sum greater than 100. Hence, the answer is 0.
 
 ### Time and Auxiliary Space Complexity
 
-- **Expected Time Complexity:** O(n log n)
+- **Expected Time Complexity:** O(n)
 - **Expected Auxiliary Space Complexity:** O(1)
 
 ### Accepted Solutions (1)
 
 #### Solution 1 (Java)
 
-- **Submitted:** 2026-11-16 09:13:20
+- **Submitted:** 2026-11-21 18:39:09
 - **Status:** Correct
-- **Marks:** 4
+- **Marks:** 2
 
 ```java
-import java.util.Arrays;
-
 class Solution {
-    public int findKthSmall(int[] arr, int k) {
-        Arrays.sort(arr);
-        int low = 0, high = arr.length - 1;
+    public int smallestSubWithSum(int[] arr, int x) {
+        int n = arr.length;
+        int left = 0;
+        long sum = 0;
+        int minLen = Integer.MAX_VALUE;
 
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
-            int missingCount = arr[mid] - (mid + 1);
+        for (int right = 0; right < n; right++) {
+            sum += arr[right];
 
-            if (missingCount >= k) {
-                high = mid - 1;
-            } else {
-                low = mid + 1;
+            while (sum > x) {
+                minLen = Math.min(minLen, right - left + 1);
+                sum -= arr[left];
+                left++;
             }
         }
 
-        return low + k;
+        return minLen == Integer.MAX_VALUE ? 0 : minLen;
     }
 }
 ```
 
-*Generated on: 16/11/2026, 09:13:36*
+*Generated on: 21/11/2026, 18:39:24*
