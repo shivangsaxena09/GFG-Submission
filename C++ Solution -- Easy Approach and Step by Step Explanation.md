@@ -1,10 +1,10 @@
 ## 01. C++ Solution || Easy Approach and Step by Step Explanation
 
-The problem can be found at the following link: [Question Link](https://www.geeksforgeeks.org/problems/smallest-subarray-with-sum-greater-than-x5651/1)
+The problem can be found at the following link: [Question Link](https://www.geeksforgeeks.org/problems/the-infinite-string1049/1)
 
 ### Problem Description
 
-**Task:** Given an integer x and an array of integers, arr[]. Find the length of the smallest subarray whose sum is strictly greater than x. If no such subarray exists, return 0.Examples:Input: x = 51, arr[] = [1, 4, 45, 6, 0, 19]
+**Task:** Given a string s and an integer pos, an infinite string is constructed by repeatedly applying the following operation. In the i-th step, append i consecutive $ characters, followed by the reverse of the current string, to the current string.Formally, if the current string is s, update it as:s = s + ('$' repeated i times) + reverse(s)The initial string is the given s, and the process continues indefinitely. Find and return the character at the pos(1-based indexing) in the resulting infinite string.Examples:Input: s = "12345", pos = 3
 
 #### Examples
 
@@ -12,44 +12,133 @@ The problem can be found at the following link: [Question Link](https://www.geek
 
 - **Output:**
 ```text
-0
+3
 ```
-- **Explanation:** No subarray has a sum greater than 100. Hence, the answer is 0.
+- **Explanation:** In "12345...", the character at pos 3 is 3.
+
+##### Example 2
+
+- **Input:**
+```text
+s = "12345", pos = 10
+```
+- **Output:**
+```text
+2
+```
+- **Explanation:** In "12345$54321...", the character at pos 10 is 2.
+
+##### Example 3
+
+- **Input:**
+```text
+s = "abc", pos = 7
+```
+- **Output:**
+```text
+a
+```
+- **Explanation:** In "abc$cba...", the character at pos 7 is a.
 
 ### Time and Auxiliary Space Complexity
 
-- **Expected Time Complexity:** O(n)
+- **Expected Time Complexity:** O(log (pos))
 - **Expected Auxiliary Space Complexity:** O(1)
 
-### Accepted Solutions (1)
+### Accepted Solutions (2)
 
 #### Solution 1 (Java)
 
-- **Submitted:** 2026-11-21 18:39:09
+- **Submitted:** 2026-11-23 22:38:45
 - **Status:** Correct
-- **Marks:** 2
+- **Marks:** 0
 
 ```java
 class Solution {
-    public int smallestSubWithSum(int[] arr, int x) {
-        int n = arr.length;
-        int left = 0;
-        long sum = 0;
-        int minLen = Integer.MAX_VALUE;
+    public char posInfinite(String s, int pos) {
+        long target = pos;
+        long baseLen = s.length();
 
-        for (int right = 0; right < n; right++) {
-            sum += arr[right];
+        if (target <= baseLen) {
+            return s.charAt((int) target - 1);
+        }
 
-            while (sum > x) {
-                minLen = Math.min(minLen, right - left + 1);
-                sum -= arr[left];
-                left++;
+        long curLen = baseLen;
+        int step = 1;
+        java.util.ArrayList<Long> prevLengths = new java.util.ArrayList<>();
+        java.util.ArrayList<Integer> steps = new java.util.ArrayList<>();
+
+        while (curLen < target) {
+            prevLengths.add(curLen);
+            steps.add(step);
+            curLen = 2 * curLen + step;
+            step++;
+        }
+
+        for (int idx = prevLengths.size() - 1; idx >= 0; idx--) {
+            long prevLen = prevLengths.get(idx);
+            int curStep = steps.get(idx);
+
+            if (target <= prevLen) {
+                curLen = prevLen;
+            } else if (target <= prevLen + curStep) {
+                return '$';
+            } else {
+                target = curLen - target + 1;
+                curLen = prevLen;
             }
         }
 
-        return minLen == Integer.MAX_VALUE ? 0 : minLen;
+        return s.charAt((int) target - 1);
     }
 }
 ```
 
-*Generated on: 21/11/2026, 18:39:24*
+#### Solution 2 (Java)
+
+- **Submitted:** 2026-11-23 22:38:31
+- **Status:** Correct
+- **Marks:** 4
+
+```java
+class Solution {
+    public char posInfinite(String s, int pos) {
+        long target = pos;
+        long baseLen = s.length();
+
+        if (target <= baseLen) {
+            return s.charAt((int) target - 1);
+        }
+
+        long curLen = baseLen;
+        int step = 1;
+        java.util.ArrayList<Long> prevLengths = new java.util.ArrayList<>();
+        java.util.ArrayList<Integer> steps = new java.util.ArrayList<>();
+
+        while (curLen < target) {
+            prevLengths.add(curLen);
+            steps.add(step);
+            curLen = 2 * curLen + step;
+            step++;
+        }
+
+        for (int idx = prevLengths.size() - 1; idx >= 0; idx--) {
+            long prevLen = prevLengths.get(idx);
+            int curStep = steps.get(idx);
+
+            if (target <= prevLen) {
+                curLen = prevLen;
+            } else if (target <= prevLen + curStep) {
+                return '$';
+            } else {
+                target = curLen - target + 1;
+                curLen = prevLen;
+            }
+        }
+
+        return s.charAt((int) target - 1);
+    }
+}
+```
+
+*Generated on: 23/11/2026, 22:39:02*
